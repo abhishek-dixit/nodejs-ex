@@ -8,6 +8,7 @@ let express = require('express'),
 app.get('/forecast', function(req, res) {
     // We'll fill this out later!
     res.json({ hello: 'JH ... Finally working node js.' });
+    console.log( "HTTPS SKILL ENPOINT CALLED ...");
 });
 
 app.listen(server_port, function(){
