@@ -1,12 +1,23 @@
 {
-  "name": "hello-openshift",
-  "version": "1.0.0",
-  "description": "Hello World in NodeJS for OpenShift",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "express": "^4.16.3"
-  }
+    "name": "to-do",
+    "version": "1.0.0",
+    "description": "Simple todo app",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "node",
+        "angular"
+    ],
+    "dependencies": {
+        "body-parser": "^1.5.2",
+        "express": "^4.7.4",
+        "method-override": "~2.1.2",
+        "mongoose": "~3.6.2",
+        "morgan": "~1.2.2"
+    },
+    "author": "atefth@gmail.com",
+    "license": "MIT"
 }
