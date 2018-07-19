@@ -1,10 +1,10 @@
-let express = require('express'),
-    bodyParser = require('body-parser'),
-    app = express();
+var http = require('http');
 
-app.use(bodyParser.json());
-app.post('/forecast', function(req, res) {
-    // We'll fill this out later!
-    res.json({ hello: 'world' });
-});
-app.listen(3000);
+var port = process.env.PORT || 8080;
+
+http.createServer(function (request, response) {
+  response.writeHead(200, {"Content-Type": "text/plain"});
+  response.end("Hello from OpenShift\n");
+}).listen(port);
+
+console.log("Server running on port " + port);
