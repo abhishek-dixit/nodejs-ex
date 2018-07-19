@@ -1,0 +1,17 @@
+var server_port =process.env.PORT || 8080;
+
+let express = require('express'),
+    bodyParser = require('body-parser'),
+    app = express();
+
+//app.use(bodyParser.json());
+app.get('/forecast', function(req, res) {
+    // We'll fill this out later!
+    res.json({ hello: 'JH ... Finally working node js.' });
+    console.log( "HTTPS SKILL ENPOINT CALLED ...");
+});
+
+app.listen(server_port, function(){
+    console.log( "Listening on server_port " + server_port  );
+    //JaiHanuman//Jai Sree Ram
+});

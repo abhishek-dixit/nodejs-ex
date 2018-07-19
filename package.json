@@ -1,19 +1,15 @@
 {
-    "name": "to-do",
-    "version": "1.0.0",
-    "description": "Simple todo app",
-    "main": "server.js",
-    "scripts": {
-        "start": "node server.js"
-    },
-    "keywords": [
-        "node",
-        "angular"
-    ],
-    "dependencies": {
-        "body-parser": "^1.5.2",
-        "express": "^4.7.4"
-    },
-    "author": "scorpion141981@gmail.com",
-    "license": "MIT"
+  "name": "fact",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ask-sdk-core": "^2.0.0",
+    "ask-sdk-model": "^1.0.0"
+  }
 }

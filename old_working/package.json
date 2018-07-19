@@ -1,0 +1,19 @@
+{
+    "name": "to-do",
+    "version": "1.0.0",
+    "description": "Simple todo app",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "keywords": [
+        "node",
+        "angular"
+    ],
+    "dependencies": {
+        "body-parser": "^1.5.2",
+        "express": "^4.7.4"
+    },
+    "author": "scorpion141981@gmail.com",
+    "license": "MIT"
+}
