@@ -1,5 +1,5 @@
 // var port = process.env.PORT || 8080;
-var server_ip = process.env.IP || "0000";
+var server_ip = process.env.IP || 0000;
 
 let express = require('express'),
     bodyParser = require('body-parser'),
