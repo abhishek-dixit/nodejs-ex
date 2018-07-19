@@ -1,108 +1,143 @@
-//  OpenShift sample Node application
-var express = require('express'),
-    app     = express(),
-    morgan  = require('morgan');
-    
-Object.assign=require('object-assign')
+/* eslint-disable  func-names */
+/* eslint-disable  no-console */
 
-app.engine('html', require('ejs').renderFile);
-app.use(morgan('combined'))
+const Alexa = require('ask-sdk-core');
+//const cookbook = require('alexa-cookbook.js');
 
-var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
-    ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
-    mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
-    mongoURLLabel = "";
+//=========================================================================================================================================
+//TODO: The items below this comment need your attention.
+//=========================================================================================================================================
 
-if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
-  var mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
-      mongoHost = process.env[mongoServiceName + '_SERVICE_HOST'],
-      mongoPort = process.env[mongoServiceName + '_SERVICE_PORT'],
-      mongoDatabase = process.env[mongoServiceName + '_DATABASE'],
-      mongoPassword = process.env[mongoServiceName + '_PASSWORD']
-      mongoUser = process.env[mongoServiceName + '_USER'];
+const SKILL_NAME = 'Space Facts';
+const GET_FACT_MESSAGE = 'Here\'s your fact: ';
+const HELP_MESSAGE = 'You can say tell me a space fact, or, you can say exit... What can I help you with?';
+const HELP_REPROMPT = 'What can I help you with?';
+const FALLBACK_MESSAGE = 'The Space Facts skill can\'t help you with that.  It can help you discover facts about space if you say tell me a space fact. What can I help you with?';
+const FALLBACK_REPROMPT = 'What can I help you with?';
+const STOP_MESSAGE = 'Goodbye!';
 
-  if (mongoHost && mongoPort && mongoDatabase) {
-    mongoURLLabel = mongoURL = 'mongodb://';
-    if (mongoUser && mongoPassword) {
-      mongoURL += mongoUser + ':' + mongoPassword + '@';
-    }
-    // Provide UI label that excludes user id and pw
-    mongoURLLabel += mongoHost + ':' + mongoPort + '/' + mongoDatabase;
-    mongoURL += mongoHost + ':' +  mongoPort + '/' + mongoDatabase;
+//=========================================================================================================================================
+//TODO: Replace this data with your own.  You can find translations of this data at http://github.com/alexa/skill-sample-node-js-fact/lambda/data
+//=========================================================================================================================================
 
-  }
-}
-var db = null,
-    dbDetails = new Object();
+const data = [
+  'A year on Mercury is just 88 days long.',
+  'Despite being farther from the Sun, Venus experiences higher temperatures than Mercury.',
+  'Venus rotates counter-clockwise, possibly because of a collision in the past with an asteroid.',
+  'On Mars, the Sun appears about half the size as it does on Earth.',
+  'Earth is the only planet not named after a god.',
+  'Jupiter has the shortest day of all the planets.',
+  'The Milky Way galaxy will collide with the Andromeda Galaxy in about 5 billion years.',
+  'The Sun contains 99.86% of the mass in the Solar System.',
+  'The Sun is an almost perfect sphere.',
+  'A total solar eclipse can happen once every 1 to 2 years. This makes them a rare event.',
+  'Saturn radiates two and a half times more energy into space than it receives from the sun.',
+  'The temperature inside the Sun can reach 15 million degrees Celsius.',
+  'The Moon is moving approximately 3.8 cm away from our planet every year.',
+];
 
-var initDb = function(callback) {
-  if (mongoURL == null) return;
+//=========================================================================================================================================
+//Editing anything below this line might break your skill.
+//=========================================================================================================================================
 
-  var mongodb = require('mongodb');
-  if (mongodb == null) return;
+const GetNewFactHandler = {
+  canHandle(handlerInput) {
+    const request = handlerInput.requestEnvelope.request;
+    return request.type === 'LaunchRequest'
+      || (request.type === 'IntentRequest'
+        && request.intent.name === 'GetNewFactIntent');
+  },
+  handle(handlerInput) {
+    const randomFact = "Hello brother";//cookbook.getRandomItem(data);
+    const speechOutput = GET_FACT_MESSAGE + randomFact;
 
-  mongodb.connect(mongoURL, function(err, conn) {
-    if (err) {
-      callback(err);
-      return;
-    }
-
-    db = conn;
-    dbDetails.databaseName = db.databaseName;
-    dbDetails.url = mongoURLLabel;
-    dbDetails.type = 'MongoDB';
-
-    console.log('Connected to MongoDB at: %s', mongoURL);
-  });
+    return handlerInput.responseBuilder
+      .speak(speechOutput)
+      .withSimpleCard(SKILL_NAME, randomFact)
+      .getResponse();
+  },
 };
 
-app.get('/', function (req, res) {
-  // try to initialize the db on every request if it's not already
-  // initialized.
-  if (!db) {
-    initDb(function(err){});
-  }
-  if (db) {
-    var col = db.collection('counts');
-    // Create a document with request IP and current time of request
-    col.insert({ip: req.ip, date: Date.now()});
-    col.count(function(err, count){
-      if (err) {
-        console.log('Error running count. Message:\n'+err);
-      }
-      res.render('index.html', { pageCountMessage : count, dbInfo: dbDetails });
-    });
-  } else {
-    res.render('index.html', { pageCountMessage : null});
-  }
-});
+const HelpHandler = {
+  canHandle(handlerInput) {
+    const request = handlerInput.requestEnvelope.request;
+    return request.type === 'IntentRequest'
+      && request.intent.name === 'AMAZON.HelpIntent';
+  },
+  handle(handlerInput) {
+    return handlerInput.responseBuilder
+      .speak(HELP_MESSAGE)
+      .reprompt(HELP_REPROMPT)
+      .getResponse();
+  },
+};
 
-app.get('/pagecount', function (req, res) {
-  // try to initialize the db on every request if it's not already
-  // initialized.
-  if (!db) {
-    initDb(function(err){});
-  }
-  if (db) {
-    db.collection('counts').count(function(err, count ){
-      res.send('{ pageCount: ' + count + '}');
-    });
-  } else {
-    res.send('{ pageCount: -1 }');
-  }
-});
+const FallbackHandler = {
+  // 2018-May-01: AMAZON.FallackIntent is only currently available in en-US locale.
+  //              This handler will not be triggered except in that locale, so it can be
+  //              safely deployed for any locale.
+  canHandle(handlerInput) {
+    const request = handlerInput.requestEnvelope.request;
+    return request.type === 'IntentRequest'
+      && request.intent.name === 'AMAZON.FallbackIntent';
+  },
+  handle(handlerInput) {
+    return handlerInput.responseBuilder
+      .speak(FALLBACK_MESSAGE)
+      .reprompt(FALLBACK_REPROMPT)
+      .getResponse();
+  },
+};
 
-// error handling
-app.use(function(err, req, res, next){
-  console.error(err.stack);
-  res.status(500).send('Something bad happened!');
-});
+const ExitHandler = {
+  canHandle(handlerInput) {
+    const request = handlerInput.requestEnvelope.request;
+    return request.type === 'IntentRequest'
+      && (request.intent.name === 'AMAZON.CancelIntent'
+        || request.intent.name === 'AMAZON.StopIntent');
+  },
+  handle(handlerInput) {
+    return handlerInput.responseBuilder
+      .speak(STOP_MESSAGE)
+      .getResponse();
+  },
+};
 
-initDb(function(err){
-  console.log('Error connecting to Mongo. Message:\n'+err);
-});
+const SessionEndedRequestHandler = {
+  canHandle(handlerInput) {
+    const request = handlerInput.requestEnvelope.request;
+    return request.type === 'SessionEndedRequest';
+  },
+  handle(handlerInput) {
+    console.log(`Session ended with reason: ${handlerInput.requestEnvelope.request.reason}`);
 
-app.listen(port, ip);
-console.log('Server running on http://%s:%s', ip, port);
+    return handlerInput.responseBuilder.getResponse();
+  },
+};
 
-module.exports = app ;
+const ErrorHandler = {
+  canHandle() {
+    return true;
+  },
+  handle(handlerInput, error) {
+    console.log(`Error handled: ${error.message}`);
+
+    return handlerInput.responseBuilder
+      .speak('Sorry, an error occurred.')
+      .reprompt('Sorry, an error occurred.')
+      .getResponse();
+  },
+};
+
+const skillBuilder = Alexa.SkillBuilders.custom();
+
+exports.handler = skillBuilder
+  .addRequestHandlers(
+    GetNewFactHandler,
+    HelpHandler,
+    ExitHandler,
+    FallbackHandler,
+    SessionEndedRequestHandler
+  )
+  .addErrorHandlers(ErrorHandler)
+  .lambda();
