@@ -7,7 +7,7 @@ let express = require('express'),
 //app.use(bodyParser.json());
 app.get('/forecast', function(req, res) {
     // We'll fill this out later!
-    res.json({ hello: 'JaiHanuman' });
+    res.json({ hello: 'JaiHanuman 1 2 3' });
 });
 
 app.listen(server_port, function(){
