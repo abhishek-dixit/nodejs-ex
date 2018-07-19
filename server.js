@@ -1,3 +1,5 @@
+var server_port =process.env.PORT || 8080;
+
 let express = require('express'),
     bodyParser = require('body-parser'),
     app = express();
@@ -32,4 +34,9 @@ app.post('/forecast', requestVerifier, function(req, res) {
       }
     });
   }
+});
+
+app.listen(server_port, function(){
+  console.log( "Listening on server_port " + server_port  );
+  //JaiHanuman//Jai Sree Ram
 });
