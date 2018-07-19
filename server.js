@@ -1,7 +1,6 @@
 // var port = process.env.PORT || 8080;
 
 
-
 let express = require('express'),
     bodyParser = require('body-parser'),
     app = express();
@@ -20,7 +19,7 @@ var server_port =process.env.PORT || 8080;
 //app.use(bodyParser.json());
 app.get('/forecast', function(req, res) {
     // We'll fill this out later!
-    res.json({ hello: 'My ip is >>' });
+    res.json({ hello: 'world' });
 });
 
 // app.listen(server_port, server_ip_address, function () {
