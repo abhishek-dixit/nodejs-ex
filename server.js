@@ -2,7 +2,7 @@ var server_port =process.env.PORT || 8080;
 
 let express = require('express'),
     bodyParser = require('body-parser'),
-    circularJSON = require('circular-json'),
+    // circularJSON = require('circular-json'),
     app = express();
 
     // let alexaVerifier = require('alexa-verifier'); // at the top of our file
@@ -22,15 +22,16 @@ let express = require('express'),
     //     );
     // }
     
-    app.use(express.json());
+    app.use(bodyParser.json());
+    // app.use(bodyParser.urlencoded({extended: true}));
     app.post('/forecast', function(req, res) {
     console.log( "/forecast called ");
+    // circularJSON.parse(circularJSON.stringify(req.body))
   
   // console.log(req.body);
   // if (req.body.request.type === 'LaunchRequest') 
-  {
+  
     res.json({
-      "req_body":req,
       "version": "1.0",
       "response": {
         "shouldEndSession": true,
@@ -40,7 +41,7 @@ let express = require('express'),
         }
       }
     });
-  }
+  
 });
 
 app.listen(server_port, function(){
