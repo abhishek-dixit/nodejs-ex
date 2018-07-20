@@ -20,14 +20,16 @@ let express = require('express'),
     //         }
     //     );
     // }
-
+    
+    app.use(bodyParser.json());
 app.post('/forecast', function(req, res) {
   console.log( "/forecast called ");
-  console.log(req.body);
+  
+  console.log(req.rawbody);
   // if (req.body.request.type === 'LaunchRequest') 
   {
     res.json({
-      "req_body":req.body,
+      "req_body":req.rawbody,
       "version": "1.0",
       "response": {
         "shouldEndSession": true,
