@@ -25,11 +25,11 @@ let express = require('express'),
 app.post('/forecast', function(req, res) {
   console.log( "/forecast called ");
   
-  console.log(req.rawbody);
+  console.log(req);
   // if (req.body.request.type === 'LaunchRequest') 
   {
     res.json({
-      "req_body":req.rawbody,
+      "req_body":req,
       "version": "1.0",
       "response": {
         "shouldEndSession": true,
