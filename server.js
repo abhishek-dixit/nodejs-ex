@@ -22,10 +22,10 @@ let express = require('express'),
     // }
     
     app.use(bodyParser.json());
-app.post('/forecast', function(req, res) {
-  console.log( "/forecast called ");
+    app.post('/forecast', function(req, res) {
+    console.log( "/forecast called ");
   
-  console.log(req);
+  console.log(req.body);
   // if (req.body.request.type === 'LaunchRequest') 
   {
     res.json({
