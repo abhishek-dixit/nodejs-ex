@@ -27,7 +27,7 @@ let express = require('express'),
     app.post('/forecast', function(req, res) {
     console.log( "/forecast called ");
     
-  // console.log(req.body);
+  console.log(req.body);
    if (req.body.request.type === 'LaunchRequest') 
   {
     res.json({
