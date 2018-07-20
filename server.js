@@ -23,7 +23,7 @@ let express = require('express'),
 
 app.post('/forecast', function(req, res) {
   console.log( "/forecast called ");
-  // if (req.body.request.type === 'LaunchRequest') 
+  if (req.body.request.type === 'LaunchRequest') 
   {
     res.json({
       "version": "1.0",
