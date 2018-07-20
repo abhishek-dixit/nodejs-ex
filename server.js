@@ -21,7 +21,7 @@ let express = require('express'),
     //     );
     // }
     
-    // app.use(bodyParser.json());
+    app.use(bodyParser.json());
     app.post('/forecast', function(req, res) {
     console.log( "/forecast called ");
   
