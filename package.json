@@ -12,6 +12,8 @@
     "alexa-verifier": "^2.0.1",
     "ask-sdk-core": "^2.0.0",
     "ask-sdk-model": "^1.0.0",
-    "express": "^4.16.3"
+    "circular-json": "^0.5.5",
+    "express": "^4.16.3",
+    "save": "^2.3.2",
   }
 }
