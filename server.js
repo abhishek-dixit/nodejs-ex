@@ -23,7 +23,7 @@ let express = require('express'),
 
 app.post('/forecast', function(req, res) {
   console.log( "/forecast called ");
-  if (req.body.request.type === 'LaunchRequest') 
+  // if (req.body.request.type === 'LaunchRequest') 
   {
     res.json({
       "version": "1.0",
@@ -31,7 +31,7 @@ app.post('/forecast', function(req, res) {
         "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak>Hmm <break time=\"1s\"/> What day do you want to know about?</speak>"
+          "ssml": "<speak>Hmm <break time=\"1s\"/> Jai Hanuman</speak>"
         }
       }
     });
