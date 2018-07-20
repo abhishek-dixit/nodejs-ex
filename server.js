@@ -26,11 +26,10 @@ let express = require('express'),
     // app.use(bodyParser.urlencoded({extended: true}));
     app.post('/forecast', function(req, res) {
     console.log( "/forecast called ");
-    // circularJSON.parse(circularJSON.stringify(req.body))
-  
+    
   // console.log(req.body);
-  // if (req.body.request.type === 'LaunchRequest') 
-  
+   if (req.body.request.type === 'LaunchRequest') 
+  {
     res.json({
       "version": "1.0",
       "response": {
@@ -41,7 +40,7 @@ let express = require('express'),
         }
       }
     });
-  
+  }
 });
 
 app.listen(server_port, function(){
