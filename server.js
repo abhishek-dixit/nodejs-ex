@@ -2,7 +2,7 @@ var server_port =process.env.PORT || 8080;
 
 let express = require('express'),
     bodyParser = require('body-parser'),
-    //circularJSON = require('circular-json'),
+    circularJSON = require('circular-json'),
     app = express();
 
     // let alexaVerifier = require('alexa-verifier'); // at the top of our file
