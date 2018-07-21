@@ -26,12 +26,12 @@ let express = require('express'),
     // app.use(bodyParser.urlencoded({extended: true}));
     app.post('/forecast', function(req, res) {
     console.log( "/forecast called ");
-    
-  console.log(req.body);
+    console.log("Acces Token Below:");  
+  console.log(req.body.context.System.user.accessToken);
    if (req.body.request.type === 'LaunchRequest') 
   {
     res.json({
-      "access_token":req.body.context.System.user.accessToken,
+      
       "version": "1.0",
       "response": {
         "shouldEndSession": true,
