@@ -14,7 +14,7 @@ app.post('/forecast', function (req, res) {
   // console.log(req.body.context.System.user.accessToken);
   if (req.body.request.type === 'LaunchRequest') {
     var accessToken = req.body.context.System.user.accessToken;
-    getUserProfile(accessToken);
+    
     res.json({
       "version": "1.0",
       "response": {
@@ -25,6 +25,8 @@ app.post('/forecast', function (req, res) {
         }
       }
     });
+
+    getUserProfile(accessToken);
   }
 });
 
