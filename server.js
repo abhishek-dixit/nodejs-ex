@@ -1,37 +1,21 @@
-var server_port =process.env.PORT || 8080;
-
+var server_port = process.env.PORT || 8080;
+var accessToken;
+const https = require('https');
 let express = require('express'),
-    bodyParser = require('body-parser'),
-    // circularJSON = require('circular-json'),
-    app = express();
+  bodyParser = require('body-parser'),
 
-    // let alexaVerifier = require('alexa-verifier'); // at the top of our file
+  app = express();
 
-    // function requestVerifier(req, res, next) {
-    //     alexaVerifier(
-    //         req.headers.signaturecertchainurl,
-    //         req.headers.signature,
-    //         req.rawBody,
-    //         function verificationCallback(err) {
-    //             if (err) {
-    //                 res.status(401).json({ message: 'Verification Failure', error: err });
-    //             } else {
-    //                 next();
-    //             }
-    //         }
-    //     );
-    // }
-    
-    app.use(bodyParser.json());
-    // app.use(bodyParser.urlencoded({extended: true}));
-    app.post('/forecast', function(req, res) {
-    console.log( "/forecast called ");
-    console.log("Acces Token Below:");  
-  console.log(req.body.context.System.user.accessToken);
-   if (req.body.request.type === 'LaunchRequest') 
-  {
+
+app.use(bodyParser.json());
+app.post('/forecast', function (req, res) {
+  console.log("/forecast called ");
+  // console.log("Acces Token Below:");
+  // console.log(req.body.context.System.user.accessToken);
+  if (req.body.request.type === 'LaunchRequest') {
+    var accessToken = req.body.context.System.user.accessToken;
+    getUserProfile(accessToken);
     res.json({
-      
       "version": "1.0",
       "response": {
         "shouldEndSession": true,
@@ -44,14 +28,31 @@ let express = require('express'),
   }
 });
 
-app.get('/', function(req, res) {
-console.log("Root Called..");
-   res.json({
-    "RESPONSE FROM OPENSHIFT": "System is UP", 
+app.get('/', function (req, res) {
+  console.log("Root Called..");
+  //getUserProfile('Atza|IwEBILbYT9hi9HxySaL9OR0B1ImH-KKLyj7SKtfCBEvpdysxtvfkY1ySb2waqUh78bY-s939HCx7IeuXZ4MgpMsGlw-2F-yxTgbRk6oTMNete5ZDCSrtXIDKHb0IXlH6-E-zMHF0DL5h3Ki8gkT2TXW-T9NCVI-C9XAp9lE9G3y589yTmrDA2dQyD0wTx8_YP7CIjrSETLw2EtBxuPX83QmQmg-qYIoZd_ZRAyInESvkdJe6qM3H75J_B0RYZBNgJM8QPCG_oFhuC0ts1O88-1zsmTslxy2KB1NCjT5yg0m4Wty-mgFPYfUSqw6LliemqCGOynFRWDRtZGFCfghe4P-od0G30QZdl4nMe8GXVKlTC9Oqg4r_r0LWlEHnvjk8mrFL_Rgt3NsmyJjGOfMovBY2INYA0PGHUvLN-A-JurYn86fB2PjBtt2h2uEGGsKTk6hrsyobfifCRw4elVAiwo02vg_UN1pI7OYeP1DJP2FDz0CBbdMrGhvIJtUqH6omQ1vketmjfZq6t7ZcGaytIq8r3JoNl2s1_Xmvl8kKMLurhERJNAqMbd_5_6nD35avM1LJZeM');
+  res.json({
+    "RESPONSE FROM OPENSHIFT": "System is UP",
   });
 });
 
-app.listen(server_port, function(){
-  console.log( "Listening on server_port " + server_port  );
+app.listen(server_port, function () {
+  console.log("Listening on server_port " + server_port);
   //JaiHanuman//Jai Sree Ram
 });
+
+var unirest = require('unirest')
+function getUserProfile(accessToken) {
+  // GET a resource
+  var url = 'https://api.amazon.com/user/profile?access_token='+accessToken;
+  unirest.get(url)
+    // .query({ 'foo': 'bar' })
+    // .query({ 'stack': 'overflow' })
+    .end(function (res) {
+      if (res.error) {
+        console.log('GET error', res.error)
+      } else {
+        console.log('GET response', res.body)
+      }
+    })
+};
