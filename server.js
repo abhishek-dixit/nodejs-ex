@@ -37,7 +37,7 @@ let express = require('express'),
         "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak>Hmm <break time=\"1s\"/> Welcome Dubey Ji</speak>"
+          "ssml": "<speak>Hmm <break time=\"1s\"/> Jai Hanuman</speak>"
         }
       }
     });
