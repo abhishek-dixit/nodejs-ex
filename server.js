@@ -44,6 +44,13 @@ let express = require('express'),
   }
 });
 
+app.get('/', function(req, res) {
+console.log("Root Called..");
+   res.json({
+    "RESPONSE FROM OPENSHIFT": "System is UP", 
+  });
+});
+
 app.listen(server_port, function(){
   console.log( "Listening on server_port " + server_port  );
   //JaiHanuman//Jai Sree Ram
