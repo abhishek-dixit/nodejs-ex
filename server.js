@@ -31,7 +31,7 @@ let express = require('express'),
    if (req.body.request.type === 'LaunchRequest') 
   {
     res.json({
-      "req_body_test":req.body,
+      "access_token":req.context.System.user.accessToken,
       "version": "1.0",
       "response": {
         "shouldEndSession": true,
