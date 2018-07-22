@@ -97,7 +97,7 @@ app.post('/forecast', function (req, res) {
       res.json({
         "version": "1.0",
         "response": {
-          "shouldEndSession": false,
+          "shouldEndSession": true,
           "outputSpeech": {
             "type": "SSML",
             "ssml": "<speak>" + actionRes + "</speak>"
