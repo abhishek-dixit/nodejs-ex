@@ -30,15 +30,15 @@ app.post('/forecast', function (req, res) {
     });
 
   } else if (req.body.request.type === 'IntentRequest') {
+    if(accountFetched === NO){
+      getUserProfile();
+    }
+
     var devLocation = req.body.request.intent.slots.device_location.value;
     var devName = req.body.request.intent.slots.device_name.value;
     var devState = req.body.request.intent.slots.device_state.value;
     var actionRes = "Sure " + userName + " , <break time=\"1s\"/> Turning " + devState + " the " + devName + " at " + devLocation;
     console.log(actionRes);
-
-    if(accountFetched === NO){
-      getUserProfile();
-    }
 
     res.json({
       "version": "1.0",
