@@ -31,7 +31,7 @@ app.post('/forecast', function (req, res) {
 
   } else if (req.body.request.type === 'IntentRequest') {
     if(accountFetched == false){
-      getUserProfile();
+      getUserProfile(req);
     }
 
     var devLocation = req.body.request.intent.slots.device_location.value;
@@ -67,7 +67,7 @@ app.listen(server_port, function () {
 });
 
 var unirest = require('unirest')
-function getUserProfile() {
+function getUserProfile(req) {
   var accessToken = req.body.context.System.user.accessToken;
   console.log("Fetching user profile");
   // GET a resource
