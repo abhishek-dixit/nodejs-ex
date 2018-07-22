@@ -16,7 +16,7 @@ app.post('/forecast', function (req, res) {
   console.log(req.body.request.type);
 
   if (req.body.request.type === 'LaunchRequest') {
-    console.log("Launch Request");
+    console.log("Launch Request >>");
     console.log(req.body.request.intent.name);
 
     res.json({
