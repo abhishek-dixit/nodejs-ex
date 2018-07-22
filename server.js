@@ -28,13 +28,16 @@ app.post('/forecast', function (req, res) {
 
     getUserProfile(accessToken);
   } else if (req.body.request.type === 'IntentRequest') {
+    
+    var actionRes = 
+
     res.json({
       "version": "1.0",
       "response": {
         "shouldEndSession": false,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak>Hmm <break time=\"1s\"/> Intent Request Received</speak>"
+          "ssml": "<speak>"+actionRes+"</speak>"
         }
       }
     });
