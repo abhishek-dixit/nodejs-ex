@@ -47,7 +47,16 @@ app.post('/forecast', function (req, res) {
     console.log(req.body.request.intent.name);
 
     if (req.body.request.intent.name === "AMAZON.StopIntent") {
-
+      res.json({
+        "version": "1.0",
+        "response": {
+          "shouldEndSession": true,
+          "outputSpeech": {
+            "type": "SSML",
+            "ssml": "<speak> Thank You </speak>"
+          }
+        }
+      });
     } else {
 
       if (accountFetched == false) {
