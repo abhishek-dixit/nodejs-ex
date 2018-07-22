@@ -50,37 +50,9 @@ app.post('/forecast', function (req, res) {
           }
         }
       });
-    } else {
-      console.log("IntentRequest with some default intent");
-      console.log(intentName);
-      if ("AMAZON.CancelIntent" === intentName)
-        res.json({
-          "version": "1.0",
-          "response": {
-            "shouldEndSession": true,
-            "outputSpeech": {
-              "type": "SSML",
-              "ssml": "<speak>Cancelled Operation</speak>"
-            }
-          }
-        });
-    }
-  } else if (req.body.request.type === 'IntentRequest') {
-    console.log("Intent Request >>>");
-    // console.log(req.body.request.intent.name);
-
-    if (req.body.request.intent.name === "AMAZON.StopIntent") {
-      res.json({
-        "version": "1.0",
-        "response": {
-          "shouldEndSession": true,
-          "outputSpeech": {
-            "type": "SSML",
-            "ssml": "<speak> Thank You </speak>"
-          }
-        }
-      });
-    } else {
+    } else if (req.body.request.type === 'IntentRequest') {
+      console.log("Intent Request >>>");
+      // console.log(req.body.request.intent.name);
 
       if (accountFetched == false) {
         getUserProfile(req);
@@ -103,8 +75,25 @@ app.post('/forecast', function (req, res) {
         }
       });
     }
+  } else {
+    console.log("IntentRequest with some default intent");
+    console.log(intentName);
+    if ("AMAZON.CancelIntent" === intentName)
+      res.json({
+        "version": "1.0",
+        "response": {
+          "shouldEndSession": true,
+          "outputSpeech": {
+            "type": "SSML",
+            "ssml": "<speak>Cancelled Operation</speak>"
+          }
+        }
+      });
+
   }
-});
+}
+
+);
 
 app.get('/', function (req, res) {
   console.log("Root Called..");
