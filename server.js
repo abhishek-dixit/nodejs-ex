@@ -44,7 +44,7 @@ app.post('/forecast', function (req, res) {
       }
     });
   } else if (req.body.request.type === 'IntentRequest') {
-    console.log("Intent Request");
+    console.log("Intent Request >>>");
     console.log(req.body.request.intent.name);
 
     if (req.body.request.intent.name === "AMAZON.StopIntent") {
