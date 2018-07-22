@@ -22,35 +22,36 @@ app.post('/forecast', function (req, res) {
     }
   }
 
-  if (intentName === "no_intent") {
-    if (req.body.request.type === 'LaunchRequest') {
-      console.log("Launch Request >>");
-      // console.log(req.body.request.intent.name);
 
-      res.json({
-        "version": "1.0",
-        "response": {
-          "shouldEndSession": false,
-          "outputSpeech": {
-            "type": "SSML",
-            // "ssml": "<speak>Hmm <break time=\"1s\"/> Jai Hanuman</speak>"
-            "ssml": "<speak>Welcome User</speak>"
-          }
+  if (req.body.request.type === 'LaunchRequest') {
+    console.log("Launch Request >>");
+    // console.log(req.body.request.intent.name);
+
+    res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": false,
+        "outputSpeech": {
+          "type": "SSML",
+          // "ssml": "<speak>Hmm <break time=\"1s\"/> Jai Hanuman</speak>"
+          "ssml": "<speak>Welcome User</speak>"
         }
-      });
-    } else if (req.body.request.type === 'SessionEndedRequest') {
-      console.log("Session End Request");
-      res.json({
-        "version": "1.0",
-        "response": {
-          "shouldEndSession": true,
-          "outputSpeech": {
-            "type": "SSML",
-            "ssml": "<speak>Session Ended </speak>"
-          }
+      }
+    });
+  } else if (req.body.request.type === 'SessionEndedRequest') {
+    console.log("Session End Request");
+    res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": true,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>Session Ended </speak>"
         }
-      });
-    } else if (req.body.request.type === 'IntentRequest') {
+      }
+    });
+  } else if (req.body.request.type === 'IntentRequest') {
+    if (intentName === "no_intent") {
       console.log("Intent Request >>>");
       // console.log(req.body.request.intent.name);
 
@@ -74,23 +75,24 @@ app.post('/forecast', function (req, res) {
           }
         }
       });
-    }
-  } else {
-    console.log("IntentRequest with some default intent");
-    console.log(intentName);
-    if ("AMAZON.CancelIntent" === intentName)
-      res.json({
-        "version": "1.0",
-        "response": {
-          "shouldEndSession": true,
-          "outputSpeech": {
-            "type": "SSML",
-            "ssml": "<speak>Cancelled Operation</speak>"
+    } else {
+      console.log("IntentRequest with some default intent");
+      console.log(intentName);
+      if ("AMAZON.CancelIntent" === intentName)
+        res.json({
+          "version": "1.0",
+          "response": {
+            "shouldEndSession": true,
+            "outputSpeech": {
+              "type": "SSML",
+              "ssml": "<speak>Cancelled Operation</speak>"
+            }
           }
-        }
-      });
+        });
+    }
 
   }
+} 
 }
 
 );
