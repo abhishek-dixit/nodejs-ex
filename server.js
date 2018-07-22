@@ -1,6 +1,6 @@
 var accountFetched = false;
-var userName = "";
-var userEmail = "";
+var unirest = require('unirest')
+
 var server_port = process.env.PORT || 8080;
 var accessToken;
 const https = require('https');
@@ -56,8 +56,8 @@ app.post('/forecast', function (req, res) {
     // console.log(req.body.request.intent.name);
 
     if ("AMAZON.CancelIntent" === intentName) {
-      console.log("Intent Request >>> Cancel" );
-      
+      console.log("Intent Request >>> Cancel");
+
       res.json({
         "version": "1.0",
         "response": {
@@ -69,7 +69,7 @@ app.post('/forecast', function (req, res) {
         }
       });
     } else if ("AMAZON.StopIntent" === intentName) {
-      console.log("Intent Request >>> Stop" );
+      console.log("Intent Request >>> Stop");
 
       res.json({
         "version": "1.0",
@@ -82,11 +82,9 @@ app.post('/forecast', function (req, res) {
         }
       });
     } else {
-      console.log("Intent Request >>> Valid" );
+      console.log("Intent Request >>> Valid");
 
-      if (accountFetched == false) {
-        getUserProfile(req);
-      }
+      var userName = getUserProfile(req);
 
       var devLocation = req.body.request.intent.slots.device_location.value;
       var devName = req.body.request.intent.slots.device_name.value;
@@ -122,8 +120,10 @@ app.listen(server_port, function () {
   //JaiHanuman//Jai Sree Ram
 });
 
-var unirest = require('unirest')
+
 function getUserProfile(req) {
+  var userName = "";
+  var userEmail = "";
   var accessToken = req.body.context.System.user.accessToken;
   console.log("Fetching user profile");
   // GET a resource
@@ -140,5 +140,7 @@ function getUserProfile(req) {
         userEmail = res.body.email;
         accountFetched = true;
       }
-    })
+    });
+  return userName;
 };
+
