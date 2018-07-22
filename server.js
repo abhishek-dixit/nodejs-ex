@@ -29,8 +29,19 @@ app.post('/forecast', function (req, res) {
       }
     });
 
+  } else if (req.body.request.type === 'SessionEndedRequest') {
+    res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": true,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak> Thank You </speak>"
+        }
+      }
+    });
   } else if (req.body.request.type === 'IntentRequest') {
-    if(accountFetched == false){
+    if (accountFetched == false) {
       getUserProfile(req);
     }
 
