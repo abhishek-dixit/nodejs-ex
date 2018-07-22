@@ -17,6 +17,7 @@ app.post('/forecast', function (req, res) {
 
   if (req.body.request.type === 'LaunchRequest') {
     console.log("Launch Request");
+    console.log(req.body.request.intent.name);
 
     res.json({
       "version": "1.0",
@@ -38,7 +39,7 @@ app.post('/forecast', function (req, res) {
         "shouldEndSession": true,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak> Thank You </speak>"
+          "ssml": "<speak>Session Ended </speak>"
         }
       }
     });
