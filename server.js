@@ -31,7 +31,7 @@ app.post('/forecast', function (req, res) {
     var devLocation = req.body.request.intent.slots.device_location.value;
     var devName = req.body.request.intent.slots.device_name.value;
     var devState = req.body.request.intent.slots.device_state.value;
-    var actionRes = "Turning " + devState + " the " + devName + "at " + devLocation;
+    var actionRes = "Turning " + devState + " the " + devName + " at " + devLocation;
     console.log(actionRes);
     
 
