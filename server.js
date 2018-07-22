@@ -14,8 +14,7 @@ app.use(bodyParser.json());
 app.post('/forecast', function (req, res) {
   console.log("/forecast called ");
   console.log(req.body.request.type);
-  // console.log("Acces Token Below:");
-  // console.log(req.body.context.System.user.accessToken);
+
   if (req.body.request.type === 'LaunchRequest') {
     console.log("Launch Request");
 
@@ -45,26 +44,33 @@ app.post('/forecast', function (req, res) {
     });
   } else if (req.body.request.type === 'IntentRequest') {
     console.log("Intent Request");
-    if (accountFetched == false) {
-      getUserProfile(req);
-    }
+    console.log(req.body.request.intent.name);
 
-    var devLocation = req.body.request.intent.slots.device_location.value;
-    var devName = req.body.request.intent.slots.device_name.value;
-    var devState = req.body.request.intent.slots.device_state.value;
-    var actionRes = "Sure " + userName + " , <break time=\"1s\"/> Turning " + devState + " the " + devName + " at " + devLocation;
-    console.log(actionRes);
+    if (req.body.request.intent.name === "AMAZON.StopIntent") {
 
-    res.json({
-      "version": "1.0",
-      "response": {
-        "shouldEndSession": false,
-        "outputSpeech": {
-          "type": "SSML",
-          "ssml": "<speak>" + actionRes + "</speak>"
-        }
+    } else {
+
+      if (accountFetched == false) {
+        getUserProfile(req);
       }
-    });
+
+      var devLocation = req.body.request.intent.slots.device_location.value;
+      var devName = req.body.request.intent.slots.device_name.value;
+      var devState = req.body.request.intent.slots.device_state.value;
+      var actionRes = "Sure " + userName + " , <break time=\"1s\"/> Turning " + devState + " the " + devName + " at " + devLocation;
+      console.log(actionRes);
+
+      res.json({
+        "version": "1.0",
+        "response": {
+          "shouldEndSession": false,
+          "outputSpeech": {
+            "type": "SSML",
+            "ssml": "<speak>" + actionRes + "</speak>"
+          }
+        }
+      });
+    }
   }
 });
 
