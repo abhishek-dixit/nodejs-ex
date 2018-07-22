@@ -87,12 +87,26 @@ app.post('/forecast', function (req, res) {
         console.log(intentName);
       }
       var userName = getUserProfile(req);
+      var actionRes = "";
 
-      var devLocation = req.body.request.intent.slots.device_location.value;
-      var devName = req.body.request.intent.slots.device_name.value;
-      var devState = req.body.request.intent.slots.device_state.value;
-      var actionRes = "Sure " + userName + " , <break time=\"1s\"/> Turning " + devState + " the " + devName + " at " + devLocation;
+
       console.log(actionRes);
+
+      if (intentName === "control_lights") {
+        var devLocation = req.body.request.intent.slots.device_location.value;
+        var devName = req.body.request.intent.slots.device_name.value;
+        var devState = req.body.request.intent.slots.device_state.value;
+        actionRes = "Sure " + userName + " , <break time=\"1s\"/> Turning " + devState + " the " + devName + " at " + devLocation;
+      } else if (intentName === "control_curtains") {
+        var curtainLocation = req.body.request.intent.slots.curtain_location.value;
+        //var devName = req.body.request.intent.slots.device_name.value;
+        var curtainState = req.body.request.intent.slots.curtain_state.value;
+        if (curtainState.toLowerCase() === "open") {
+          actionRes = "Sure " + userName + " , <break time=\"1s\"/> Opening curtains at " + curtainLocation;
+        } else {
+          actionRes = "Sure " + userName + " , <break time=\"1s\"/> Closing curtains at " + curtainLocation;
+        }
+      }
 
       res.json({
         "version": "1.0",
