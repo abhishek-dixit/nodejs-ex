@@ -28,8 +28,10 @@ app.post('/forecast', function (req, res) {
 
     getUserProfile(accessToken);
   } else if (req.body.request.type === 'IntentRequest') {
-    
-    var actionRes = 
+    var devLocation = req.body.request.intent.slots.device_location;
+    var devName = req.body.request.intent.slots.device_name;
+    var devState = req.body.request.intent.slots.device_state;
+    var actionRes = "Turning " + devState + " the " + devName + "at " + devLocation;
 
     res.json({
       "version": "1.0",
@@ -37,7 +39,7 @@ app.post('/forecast', function (req, res) {
         "shouldEndSession": false,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak>"+actionRes+"</speak>"
+          "ssml": "<speak>" + actionRes + "</speak>"
         }
       }
     });
