@@ -78,7 +78,7 @@ app.post('/forecast', function (req, res) {
     } else {
       console.log("IntentRequest with some default intent");
       console.log(intentName);
-      if ("AMAZON.CancelIntent" === intentName)
+      if ("AMAZON.CancelIntent" === intentName) {
         res.json({
           "version": "1.0",
           "response": {
@@ -89,8 +89,19 @@ app.post('/forecast', function (req, res) {
             }
           }
         });
+      } else if ("AMAZON.StopIntent" === intentName) {
+        res.json({
+          "version": "1.0",
+          "response": {
+            "shouldEndSession": true,
+            "outputSpeech": {
+              "type": "SSML",
+              "ssml": "<speak>Stopped Operation</speak>"
+            }
+          }
+        });
+      }
     }
-
   }
 });
 
