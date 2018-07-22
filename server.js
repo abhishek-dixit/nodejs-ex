@@ -1,3 +1,5 @@
+var userName = "";
+var userEmail = "";
 var server_port = process.env.PORT || 8080;
 var accessToken;
 const https = require('https');
@@ -31,7 +33,7 @@ app.post('/forecast', function (req, res) {
     var devLocation = req.body.request.intent.slots.device_location.value;
     var devName = req.body.request.intent.slots.device_name.value;
     var devState = req.body.request.intent.slots.device_state.value;
-    var actionRes = "Turning " + devState + " the " + devName + " at " + devLocation;
+    var actionRes = "Sure "+userName+" , <break time=\"1s\"/> Turning " + devState + " the " + devName + " at " + devLocation;
     console.log(actionRes);
     
 
@@ -73,6 +75,8 @@ function getUserProfile(accessToken) {
         console.log('GET error', res.error)
       } else {
         console.log('GET response', res.body)
+        userName = res.body.name;
+        userEmail = res.body.email;
       }
     })
 };
