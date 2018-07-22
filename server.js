@@ -83,7 +83,9 @@ app.post('/forecast', function (req, res) {
       });
     } else {
       console.log("Intent Request >>> Valid");
-
+      if (intentName !== "") {
+        console.log(intentName);
+      }
       var userName = getUserProfile(req);
 
       var devLocation = req.body.request.intent.slots.device_location.value;
@@ -102,6 +104,8 @@ app.post('/forecast', function (req, res) {
           }
         }
       });
+      //Connect here to firebase and get matching devices id for now:
+
     }
 
   }
