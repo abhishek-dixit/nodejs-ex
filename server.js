@@ -1,4 +1,4 @@
-var accountFetched = false;
+// var accountFetched = false;
 var unirest = require('unirest')
 
 var server_port = process.env.PORT || 8080;
@@ -11,9 +11,13 @@ let express = require('express'),
 
 
 app.use(bodyParser.json());
-app.post('/forecast', function (req, res) {
+app.post('/', function (req, res) {
+  fbInit();
+  fbLogout();
+  fbLogin();
+  
   var intentName = "no_intent";
-  console.log("/forecast called ");
+  console.log("end point called ");
   console.log(req.body.request.type);
   if (req.body.request.hasOwnProperty('intent')) {
     if (req.body.request.intent.hasOwnProperty('name')) {
@@ -125,9 +129,8 @@ app.post('/forecast', function (req, res) {
   }
 });
 
-app.get('/', function (req, res) {
-  console.log("Root Called..");
-  //getUserProfile('Atza|IwEBILbYT9hi9HxySaL9OR0B1ImH-KKLyj7SKtfCBEvpdysxtvfkY1ySb2waqUh78bY-s939HCx7IeuXZ4MgpMsGlw-2F-yxTgbRk6oTMNete5ZDCSrtXIDKHb0IXlH6-E-zMHF0DL5h3Ki8gkT2TXW-T9NCVI-C9XAp9lE9G3y589yTmrDA2dQyD0wTx8_YP7CIjrSETLw2EtBxuPX83QmQmg-qYIoZd_ZRAyInESvkdJe6qM3H75J_B0RYZBNgJM8QPCG_oFhuC0ts1O88-1zsmTslxy2KB1NCjT5yg0m4Wty-mgFPYfUSqw6LliemqCGOynFRWDRtZGFCfghe4P-od0G30QZdl4nMe8GXVKlTC9Oqg4r_r0LWlEHnvjk8mrFL_Rgt3NsmyJjGOfMovBY2INYA0PGHUvLN-A-JurYn86fB2PjBtt2h2uEGGsKTk6hrsyobfifCRw4elVAiwo02vg_UN1pI7OYeP1DJP2FDz0CBbdMrGhvIJtUqH6omQ1vketmjfZq6t7ZcGaytIq8r3JoNl2s1_Xmvl8kKMLurhERJNAqMbd_5_6nD35avM1LJZeM');
+app.get('/ping', function (req, res) {
+  console.log("Ping Called..");
   res.json({
     "RESPONSE FROM OPENSHIFT": "System is UP",
   });
@@ -162,3 +165,65 @@ function getUserProfile(req) {
   return userName;
 };
 
+//**********************Firebase Starts *///////////////////////
+var firebase = require("firebase");
+var config = {
+  apiKey: " AIzaSyCZ07-V9EBaMEMHjtBDbPFzoREHZtOrPEQ",
+  authDomain: "alivesystems-4b12c.firebaseapp.com",
+  databaseURL: "https://alivesystems-4b12c.firebaseio.com",
+  storageBucket: "alivesystems-4b12c.appspot.com",
+};
+
+// var storage = firebase.storage();
+var auth;
+var fbInitDone = false;
+function fbInit() {
+  if (fbInitDone === true) {
+    return;
+  }
+  fbInitDone = true;
+  firebase.initializeApp(config);
+  auth = firebase.auth();
+  auth.onAuthStateChanged(function (user) {
+    if (user) {
+      // User is signed in.
+      var displayName = user.displayName;
+      var email = user.email;
+      var emailVerified = user.emailVerified;
+      var photoURL = user.photoURL;
+      var isAnonymous = user.isAnonymous;
+      var uid = user.uid;
+      var providerData = user.providerData;
+      console.log("Logged In.");
+      console.log(displayName);
+      console.log(email);
+      // ...
+    } else {
+      // User is signed out.
+      // ...
+    }
+  });
+}
+
+// Get a reference to the storage service, which is used to create references in your storage bucket
+
+
+function fbLogin() {
+  auth.signInWithEmailAndPassword("scorpion141981@gmail.com", "abhi141981").catch(function (error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    console.error("Login Failed !!!! ");
+    console.error(errorMessage);
+    // ...
+  });
+};
+
+function fbLogout() {
+  // auth.loo("scorpion141981@gmail.com", "abhi141981").catch(function (error) {
+
+  // });
+};
+
+
+//**********************Firebase Ends *///////////////////////
