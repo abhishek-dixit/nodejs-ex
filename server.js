@@ -13,6 +13,7 @@ let express = require('express'),
 app.use(bodyParser.json());
 app.post('/forecast', function (req, res) {
   console.log("/forecast called ");
+  console.log(req.body.request.type);
   // console.log("Acces Token Below:");
   // console.log(req.body.context.System.user.accessToken);
   if (req.body.request.type === 'LaunchRequest') {
