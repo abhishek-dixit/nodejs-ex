@@ -1,4 +1,4 @@
-var accountFetched = NO;
+var accountFetched = false;
 var userName = "";
 var userEmail = "";
 var server_port = process.env.PORT || 8080;
@@ -30,7 +30,7 @@ app.post('/forecast', function (req, res) {
     });
 
   } else if (req.body.request.type === 'IntentRequest') {
-    if(accountFetched === NO){
+    if(accountFetched == false){
       getUserProfile();
     }
 
@@ -82,7 +82,7 @@ function getUserProfile() {
         console.log('GET response', res.body)
         userName = res.body.name;
         userEmail = res.body.email;
-        accountFetched = YES;
+        accountFetched = true;
       }
     })
 };
