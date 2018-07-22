@@ -92,10 +92,7 @@ app.post('/forecast', function (req, res) {
     }
 
   }
-} 
-}
-
-);
+});
 
 app.get('/', function (req, res) {
   console.log("Root Called..");
