@@ -27,7 +27,7 @@ app.post('/forecast', function (req, res) {
         "outputSpeech": {
           "type": "SSML",
           // "ssml": "<speak>Hmm <break time=\"1s\"/> Jai Hanuman</speak>"
-          "ssml": "<speak>Welcome</speak>"
+          "ssml": "<speak>Welcome User</speak>"
         }
       }
     });
