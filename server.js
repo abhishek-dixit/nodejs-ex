@@ -51,9 +51,38 @@ app.post('/forecast', function (req, res) {
       }
     });
   } else if (req.body.request.type === 'IntentRequest') {
-    if (intentName === "no_intent") {
-      console.log("Intent Request >>>");
-      // console.log(req.body.request.intent.name);
+
+    console.log("Intent Request >>>");
+    // console.log(req.body.request.intent.name);
+
+    if ("AMAZON.CancelIntent" === intentName) {
+      console.log("Intent Request >>> Cancel" );
+      
+      res.json({
+        "version": "1.0",
+        "response": {
+          "shouldEndSession": true,
+          "outputSpeech": {
+            "type": "SSML",
+            "ssml": "<speak>Cancelled Operation.Thank You.</speak>"
+          }
+        }
+      });
+    } else if ("AMAZON.StopIntent" === intentName) {
+      console.log("Intent Request >>> Stop" );
+
+      res.json({
+        "version": "1.0",
+        "response": {
+          "shouldEndSession": true,
+          "outputSpeech": {
+            "type": "SSML",
+            "ssml": "<speak>Stopped Operation.Thank You.</speak>"
+          }
+        }
+      });
+    } else {
+      console.log("Intent Request >>> Valid" );
 
       if (accountFetched == false) {
         getUserProfile(req);
@@ -75,33 +104,8 @@ app.post('/forecast', function (req, res) {
           }
         }
       });
-    } else {
-      console.log("IntentRequest with some default intent");
-      console.log(intentName);
-      if ("AMAZON.CancelIntent" === intentName) {
-        res.json({
-          "version": "1.0",
-          "response": {
-            "shouldEndSession": true,
-            "outputSpeech": {
-              "type": "SSML",
-              "ssml": "<speak>Cancelled Operation</speak>"
-            }
-          }
-        });
-      } else if ("AMAZON.StopIntent" === intentName) {
-        res.json({
-          "version": "1.0",
-          "response": {
-            "shouldEndSession": true,
-            "outputSpeech": {
-              "type": "SSML",
-              "ssml": "<speak>Stopped Operation</speak>"
-            }
-          }
-        });
-      }
     }
+
   }
 });
 
