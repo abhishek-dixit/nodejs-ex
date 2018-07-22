@@ -14,7 +14,7 @@ app.post('/forecast', function (req, res) {
   // console.log(req.body.context.System.user.accessToken);
   if (req.body.request.type === 'LaunchRequest') {
     var accessToken = req.body.context.System.user.accessToken;
-    
+
     res.json({
       "version": "1.0",
       "response": {
@@ -27,6 +27,17 @@ app.post('/forecast', function (req, res) {
     });
 
     getUserProfile(accessToken);
+  } else if (req.body.request.type === 'IntentRequest') {
+    res.json({
+      "version": "1.0",
+      "response": {
+        "shouldEndSession": false,
+        "outputSpeech": {
+          "type": "SSML",
+          "ssml": "<speak>Hmm <break time=\"1s\"/> Intent Request Received</speak>"
+        }
+      }
+    });
   }
 });
 
@@ -46,7 +57,7 @@ app.listen(server_port, function () {
 var unirest = require('unirest')
 function getUserProfile(accessToken) {
   // GET a resource
-  var url = 'https://api.amazon.com/user/profile?access_token='+accessToken;
+  var url = 'https://api.amazon.com/user/profile?access_token=' + accessToken;
   unirest.get(url)
     // .query({ 'foo': 'bar' })
     // .query({ 'stack': 'overflow' })
