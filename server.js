@@ -1,3 +1,4 @@
+var accountFetched = NO;
 var userName = "";
 var userEmail = "";
 var server_port = process.env.PORT || 8080;
@@ -15,7 +16,7 @@ app.post('/forecast', function (req, res) {
   // console.log("Acces Token Below:");
   // console.log(req.body.context.System.user.accessToken);
   if (req.body.request.type === 'LaunchRequest') {
-    var accessToken = req.body.context.System.user.accessToken;
+
 
     res.json({
       "version": "1.0",
@@ -28,14 +29,16 @@ app.post('/forecast', function (req, res) {
       }
     });
 
-    getUserProfile(accessToken);
   } else if (req.body.request.type === 'IntentRequest') {
     var devLocation = req.body.request.intent.slots.device_location.value;
     var devName = req.body.request.intent.slots.device_name.value;
     var devState = req.body.request.intent.slots.device_state.value;
-    var actionRes = "Sure "+userName+" , <break time=\"1s\"/> Turning " + devState + " the " + devName + " at " + devLocation;
+    var actionRes = "Sure " + userName + " , <break time=\"1s\"/> Turning " + devState + " the " + devName + " at " + devLocation;
     console.log(actionRes);
-    
+
+    if(accountFetched === NO){
+      getUserProfile();
+    }
 
     res.json({
       "version": "1.0",
@@ -64,7 +67,9 @@ app.listen(server_port, function () {
 });
 
 var unirest = require('unirest')
-function getUserProfile(accessToken) {
+function getUserProfile() {
+  var accessToken = req.body.context.System.user.accessToken;
+  console.log("Fetching user profile");
   // GET a resource
   var url = 'https://api.amazon.com/user/profile?access_token=' + accessToken;
   unirest.get(url)
@@ -77,6 +82,7 @@ function getUserProfile(accessToken) {
         console.log('GET response', res.body)
         userName = res.body.name;
         userEmail = res.body.email;
+        accountFetched = YES;
       }
     })
 };
