@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 app.post('/forecast', function (req, res) {
   console.log("/forecast called ");
   console.log(req.body.request.type);
+  console.log(req.body.request.intent.name);
 
   if (req.body.request.type === 'LaunchRequest') {
     console.log("Launch Request >>");
