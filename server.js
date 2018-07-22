@@ -64,7 +64,7 @@ app.post('/forecast', function (req, res) {
           "shouldEndSession": true,
           "outputSpeech": {
             "type": "SSML",
-            "ssml": "<speak>Cancelled Operation.Thank You.</speak>"
+            "ssml": "<speak>Cancelled Operation. Thank You.</speak>"
           }
         }
       });
@@ -77,7 +77,7 @@ app.post('/forecast', function (req, res) {
           "shouldEndSession": true,
           "outputSpeech": {
             "type": "SSML",
-            "ssml": "<speak>Stopped Operation.Thank You.</speak>"
+            "ssml": "<speak>Stopped Operation. Thank You.</speak>"
           }
         }
       });
