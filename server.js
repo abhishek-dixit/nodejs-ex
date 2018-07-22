@@ -16,7 +16,7 @@ app.post('/forecast', function (req, res) {
   // console.log("Acces Token Below:");
   // console.log(req.body.context.System.user.accessToken);
   if (req.body.request.type === 'LaunchRequest') {
-
+    console.log("Launch Request");
 
     res.json({
       "version": "1.0",
@@ -24,12 +24,14 @@ app.post('/forecast', function (req, res) {
         "shouldEndSession": false,
         "outputSpeech": {
           "type": "SSML",
-          "ssml": "<speak>Hmm <break time=\"1s\"/> Jai Hanuman</speak>"
+          // "ssml": "<speak>Hmm <break time=\"1s\"/> Jai Hanuman</speak>"
+          "ssml": "<speak>Welcome</speak>"
         }
       }
     });
 
   } else if (req.body.request.type === 'SessionEndedRequest') {
+    console.log("Session End Request");
     res.json({
       "version": "1.0",
       "response": {
@@ -41,6 +43,7 @@ app.post('/forecast', function (req, res) {
       }
     });
   } else if (req.body.request.type === 'IntentRequest') {
+    console.log("Intent Request");
     if (accountFetched == false) {
       getUserProfile(req);
     }
