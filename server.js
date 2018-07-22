@@ -14,8 +14,10 @@ app.use(bodyParser.json());
 app.post('/forecast', function (req, res) {
   console.log("/forecast called ");
   console.log(req.body.request.type);
-  if (req.body.request.hasOwnProperty(intent.name)) {
+  if (req.body.request.hasOwnProperty(intent)) {
+    if (req.body.request.intent.hasOwnProperty(name)) {
     console.log(req.body.request.intent.name);
+    }
   }
 
   if (req.body.request.type === 'LaunchRequest') {
